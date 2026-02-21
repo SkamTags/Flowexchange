@@ -1,8 +1,10 @@
 const LANG_KEY = "flowexchange-lang";
 const getLang = () => localStorage.getItem(LANG_KEY) || "ru";
 
-/** CoinGecko: курсы USDT и BTC в рублях (рыночные, без API-ключа). Альтернатива Google Finance, у которого нет публичного API. */
+/** CoinGecko: курсы USDT и BTC в рублях (рыночные, без API-ключа). */
 const COINGECKO_PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=tether,bitcoin&vs_currencies=rub";
+/** Запасной источник курса USDT (уже со спредом): GitHub Actions обновляет раз в 5 мин. */
+const RATE_FALLBACK_URL = "https://raw.githubusercontent.com/SkamTags/Flowexchange/main/api/rate.json";
 
 /** URL веб-приложения Google Apps Script: при нажатии «Продолжить» данные заявки отправляются в таблицу. */
 const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxOkZfndoEp6TXlCYjspI8L80lAnHx_ZvmphMRKvD9oMusO1Hg-RWvidBWibRku7ivrfQ/exec";
@@ -352,17 +354,40 @@ function applyRatesFromRub(usdtRub, btcRub) {
   if (typeof updateToAmountFromRate === "function") updateToAmountFromRate();
 }
 
-/** Загрузка курсов с CoinGecko: USDT/RUB и BTC/RUB. Ответ: { tether: { rub }, bitcoin: { rub } }. */
+/** Загрузка курсов: сначала CoinGecko, при неудаче — запасной URL (api/rate.json с GitHub). */
 async function fetchRatesFromAPI() {
+  let usdtRub = NaN;
+  let btcRub = NaN;
   try {
     const res = await fetch(COINGECKO_PRICE_URL);
-    if (!res.ok) return;
-    const data = await res.json();
-    const usdtRub = parseFloat(data?.tether?.rub);
-    const btcRub = parseFloat(data?.bitcoin?.rub);
-    if (Number.isFinite(usdtRub) && Number.isFinite(btcRub) && usdtRub > 0 && btcRub > 0)
-      applyRatesFromRub(usdtRub, btcRub);
+    if (res.ok) {
+      const data = await res.json();
+      usdtRub = parseFloat(data?.tether?.rub);
+      btcRub = parseFloat(data?.bitcoin?.rub);
+    }
   } catch (_) {}
+  if (!Number.isFinite(usdtRub) || usdtRub <= 0) {
+    try {
+      const fallback = await fetch(RATE_FALLBACK_URL);
+      if (fallback.ok) {
+        const data = await fallback.json();
+        const price = parseFloat(data?.price);
+        if (Number.isFinite(price) && price > 0)
+          usdtRub = price / USDT_BUY_SPREAD;
+      }
+    } catch (_) {}
+  }
+  if (!Number.isFinite(btcRub) || btcRub <= 0) {
+    try {
+      const btcRes = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=rub");
+      if (btcRes.ok) {
+        const btcData = await btcRes.json();
+        btcRub = parseFloat(btcData?.bitcoin?.rub);
+      }
+    } catch (_) {}
+  }
+  if (Number.isFinite(usdtRub) && usdtRub > 0 && Number.isFinite(btcRub) && btcRub > 0)
+    applyRatesFromRub(usdtRub, btcRub);
 }
 
 const CURRENCY_LABELS = {
