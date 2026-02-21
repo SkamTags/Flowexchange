@@ -1,0 +1,41 @@
+# Раз в 5 минут обновляет rate.json курсом с CoinGecko (тот же спред, что на сайте).
+name: Update rate
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch rate and write JSON
+        id: rate
+        run: |
+          USDT_BUY_SPREAD=1.01411389
+          RESP=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub")
+          RUB=$(echo "$RESP" | grep -o '"rub":[0-9.]*' | cut -d: -f2)
+          if [ -z "$RUB" ] || [ "$RUB" = "0" ]; then
+            echo "CoinGecko failed"
+            echo "ok=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          PRICE=$(awk "BEGIN {printf \"%.2f\", $RUB * $USDT_BUY_SPREAD}")
+          echo "{\"price\": $PRICE}" > api/rate.json
+          echo "ok=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.rate.outputs.ok == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add api/rate.json
+          git diff --staged --quiet || (git commit -m "chore: update rate" && git push)
