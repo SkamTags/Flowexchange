@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlowExchange - FAQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sora:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="./index.html" class="brand" aria-label="FlowExchange">
+          <img
+            class="brand-logo"
+            src="./assets/flowexchange-mark-v2-clean.png"
+            alt="FlowExchange"
+          />
+          <span class="brand-name">FlowExchange</span>
+        </a>
+        <nav class="nav-links" aria-label="Главная навигация">
+          <a href="./index.html#exchange" data-i18n="navExchange">Обмен</a>
+          <a href="./faq.html" data-i18n="navFaq">FAQ</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="lang-switch" id="langSwitch" type="button">RU</button>
+          <a class="btn btn-ghost" href="./auth.html" data-i18n="navLogin">Войти</a>
+          <a class="btn btn-primary" href="./auth.html" data-i18n="navRegister">Регистрация</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="container">
+        <p class="eyebrow" data-i18n="faqEyebrow">Legal & Support</p>
+        <h1 data-i18n="faqTitle">Ответы на основные вопросы</h1>
+        <div class="simple-card faq-list" style="margin-top: 32px">
+          <article class="faq-item">
+            <h3 data-i18n="faqQ1">Как подать заявку на обмен?</h3>
+            <p data-i18n="faqA1">Выберите направление, укажите контакт и сумму, подтвердите согласие с условиями сервиса.</p>
+          </article>
+          <article class="faq-item">
+            <h3 data-i18n="faqQ2">Как обрабатывается AML-проверка?</h3>
+            <p><span data-i18n="faqA2Before">Каждая операция проходит автоматический контроль риска и может требовать уточнения данных. Больше можете узнать </span><a href="./aml.html" class="faq-link" data-i18n="faqHere">тут</a>.</p>
+          </article>
+          <article class="faq-item">
+            <h3 data-i18n="faqQ3">Когда доступна поддержка?</h3>
+            <p data-i18n="faqA3">Операторы доступны ежедневно в рабочее время сервиса, по кнопке связаться с нами.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

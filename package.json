@@ -1,0 +1,8 @@
+{
+  "name": "lux-minimal-newline",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve . -p 3000",
+    "open": "open http://localhost:3000"
+  }
+}

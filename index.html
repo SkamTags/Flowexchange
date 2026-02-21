@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlowExchange - Digital Premium Exchange</title>
+    <meta
+      name="description"
+      content="Технологичный интерфейс обмена цифровых и фиатных активов."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sora:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="./index.html" class="brand" aria-label="FlowExchange">
+          <img
+            class="brand-logo"
+            src="./assets/flowexchange-mark-v2-clean.png"
+            alt="FlowExchange"
+          />
+          <span class="brand-name">FlowExchange</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Главная навигация">
+          <a href="#exchange" data-i18n="navExchange">Обмен</a>
+          <a href="./faq.html" data-i18n="navFaq">FAQ</a>
+          <a href="https://t.me/Fl0wExchange" target="_blank" rel="noopener noreferrer" data-i18n="navContact">Связаться с нами!</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="lang-switch" id="langSwitch" type="button">RU</button>
+          <a class="btn btn-ghost" href="./auth.html" data-i18n="navLogin">Войти</a>
+          <a class="btn btn-primary" href="./auth.html" data-i18n="navRegister">Регистрация</a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#exchange" data-i18n="navExchange">Обмен</a>
+        <a href="./faq.html" data-i18n="navFaq">FAQ</a>
+        <a href="https://t.me/Fl0wExchange" target="_blank" rel="noopener noreferrer" data-i18n="navContact">Связаться с нами!</a>
+        <a href="./auth.html" data-i18n="navLogin">Войти</a>
+        <a href="./auth.html" data-i18n="navRegister">Регистрация</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <div class="hero-content">
+          <p class="eyebrow" data-i18n="heroEyebrow">Easy Exchange</p>
+          <h1 data-i18n="heroTitle">FlowExchange удобный сервис для обмена цифровых активов.</h1>
+          <p class="hero-copy" data-i18n="heroCopy">
+            Мы сделали интерфейс максимально понятным, а процесс обмена — быстрым и
+            комфортным для пользователей из разных стран.
+          </p>
+          <div class="hero-reveal" aria-hidden="true">
+            <div class="hero-reveal-core">
+              <img src="./assets/flowexchange-mark-v2-clean.png" alt="" />
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a href="https://t.me/Fl0wExchange" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="heroContact">Связаться с нами!</a>
+            <a href="#exchange" class="btn btn-ghost" data-i18n="heroCta">Начать обмен</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="exchange container" id="exchange">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="exchangeEyebrow">Exchange Engine</p>
+          <h2 data-i18n="exchangeTitle">Обмен электронных и наличных направлений</h2>
+        </div>
+
+        <div class="rate-display" id="rateDisplay" aria-live="polite">
+          <span class="rate-display-label" data-i18n="rateLabel">Курс</span>
+          <span class="rate-display-value" id="rateDisplayValue">—</span>
+        </div>
+
+        <form class="exchange-card" id="exchangeForm">
+          <div class="refresh-timer-wrap">
+          <div class="refresh-timer" id="refreshTimer" aria-live="polite">
+            <span data-i18n="refreshIn">Обновление через</span>
+            <span class="refresh-timer-value" id="refreshTimerValue">1:00</span>
+          </div>
+          </div>
+          <input type="hidden" id="fromCurrency" name="fromCurrency" value="cash_rub" />
+          <input type="hidden" id="toCurrency" name="toCurrency" value="usdt_trc20" />
+          <div class="field-grid">
+            <div class="field currency-field">
+              <span class="field-label-inline"><span data-i18n="labelGive">Отдаете</span>: <span class="currency-selected-label" id="fromCurrencyLabel" aria-live="polite">НАЛ</span></span>
+              <div class="currency-buttons" id="fromCurrencySwitcher" role="group" aria-label="Валюта отдаете">
+                <button type="button" class="currency-option active" data-currency="cash_rub" aria-pressed="true"><img src="./assets/icon-rub-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">НАЛ</span></button>
+                <button type="button" class="currency-option" data-currency="usdt_trc20" aria-pressed="false"><img src="./assets/icon-usdt-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">USDT</span></button>
+                <button type="button" class="currency-option" data-currency="btc" aria-pressed="false"><img src="./assets/icon-btc-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">BTC</span></button>
+              </div>
+              <input type="text" id="fromAmount" name="fromAmount" class="amount-input" inputmode="decimal" placeholder="0" autocomplete="off" />
+            </div>
+
+            <button class="swap-btn" id="swapBtn" type="button" aria-label="Поменять местами">
+              <span class="swap-icon" aria-hidden="true">↕</span>
+            </button>
+
+            <div class="field currency-field">
+              <span class="field-label-inline"><span data-i18n="labelGet">Получаете</span>: <span class="currency-selected-label" id="toCurrencyLabel" aria-live="polite">USDT</span></span>
+              <div class="currency-buttons" id="toCurrencySwitcher" role="group" aria-label="Валюта получаете">
+                <button type="button" class="currency-option" data-currency="cash_rub" aria-pressed="false"><img src="./assets/icon-rub-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">НАЛ</span></button>
+                <button type="button" class="currency-option active" data-currency="usdt_trc20" aria-pressed="true"><img src="./assets/icon-usdt-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">USDT</span></button>
+                <button type="button" class="currency-option" data-currency="btc" aria-pressed="false"><img src="./assets/icon-btc-clean.png" alt="" class="currency-option-logo" /><span class="currency-option-label">BTC</span></button>
+              </div>
+              <input type="text" id="toAmount" name="toAmount" class="amount-input" inputmode="decimal" placeholder="0" autocomplete="off" />
+            </div>
+
+            <label class="field full-row">
+              <span data-i18n="labelContact">Контакт</span>
+              <div class="inline-field">
+                <select id="contactType">
+                  <option value="telegram">Telegram</option>
+                  <option value="email">E-mail</option>
+                </select>
+                <input id="contactValue" type="text" data-i18n-placeholder="contactPlaceholder" placeholder="@username или email@example.com" />
+              </div>
+            </label>
+          </div>
+
+          <label class="check">
+            <input id="agreement" type="checkbox" />
+            <span><span data-i18n="agreementPrefix">Я принимаю </span><a href="./terms.html" class="check-link" data-i18n="linkTerms">условия сервиса</a><span data-i18n="agreementMiddle"> и </span><a href="./aml.html" class="check-link" data-i18n="linkAml">AML-проверки</a></span>
+          </label>
+
+          <button class="btn btn-primary full" type="submit" id="submitExchangeBtn" data-i18n="submitBtn">Продолжить</button>
+          <p class="form-note" id="formNote" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="stats container">
+        <article>
+          <h3 data-i18n="stats1Title">4 года</h3>
+          <p data-i18n="stats1Text">Стабильной работы на рынке цифрового обмена</p>
+        </article>
+        <article>
+          <h3 data-i18n="stats2Title">100%</h3>
+          <p data-i18n="stats2Text">Цифровых активов, проходят AML проверку</p>
+        </article>
+        <article>
+          <h3 data-i18n="stats3Title">24 / 7</h3>
+          <p data-i18n="stats3Text">Поддержка процессов и контроль качества операций</p>
+        </article>
+      </section>
+
+      <section class="rates container">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="ratesEyebrow">Top Pairs</p>
+          <h2 data-i18n="ratesTitle">Актуальные направления</h2>
+        </div>
+        <div class="rate-grid">
+          <article class="rate-card">
+            <p data-i18n="optionCashRub">Наличные RUB</p>
+            <span>→</span>
+            <p data-i18n="optionUsdt">USDT TRC20</p>
+          </article>
+          <article class="rate-card">
+            <p data-i18n="optionUsdt">USDT TRC20</p>
+            <span>→</span>
+            <p data-i18n="optionCashRub">Наличные RUB</p>
+          </article>
+          <article class="rate-card">
+            <p data-i18n="optionBtc">BTC</p>
+            <span>→</span>
+            <p data-i18n="optionUsdt">USDT TRC20</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <a href="./index.html" class="brand" aria-label="FlowExchange">
+          <img
+            class="brand-logo"
+            src="./assets/flowexchange-mark-v2-clean.png"
+            alt="FlowExchange"
+          />
+          <span class="brand-name">FlowExchange</span>
+        </a>
+        <div class="footer-links">
+          <a href="./terms.html" data-i18n="footerAgreement">Пользовательское соглашение</a>
+          <a href="./aml.html" data-i18n="footerAml">AML-политика</a>
+        </div>
+        <div class="footer-meta">
+          <p data-i18n="footerHours">Ежедневно 11:00-20:00 (UTC+3)</p>
+          <p data-i18n="footerSupport">Сервисная поддержка без выходных</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Скрытая форма для отправки заявки в Google Таблицу (без CORS) -->
+    <form id="sheetSubmitForm" method="post" target="sheetSubmitFrame" style="display:none;">
+      <input type="hidden" name="date" />
+      <input type="hidden" name="fromCurrency" />
+      <input type="hidden" name="toCurrency" />
+      <input type="hidden" name="fromAmount" />
+      <input type="hidden" name="toAmount" />
+      <input type="hidden" name="contactType" />
+      <input type="hidden" name="contact" />
+    </form>
+    <iframe name="sheetSubmitFrame" title="Отправка в таблицу" style="display:none;"></iframe>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
